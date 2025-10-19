@@ -1,3 +1,20 @@
+# ⚠️ IMPORTANT: Project Maintenance Transition
+
+> **This repository is no longer maintained.**
+>
+> **All future development, bug fixes, and support have been transferred to:**
+> 🔗 **[4ch1m/idea-ansible-vault-integration](https://github.com/4ch1m/idea-ansible-vault-integration)**
+>
+> **Please use the new repository for:**
+> - Reporting issues
+> - Submitting pull requests
+> - Getting the latest updates
+>
+> **This repository is now in read-only mode and will not receive further updates.**
+> For the most up-to-date and supported version, visit **[4ch1m’s repository](https://github.com/4ch1m/idea-ansible-vault-integration)**.
+
+---
+
 Ansible Vault Integration
 ===
 [![CircleCI](https://circleci.com/gh/timo-reymann/idea-ansible-vault-integration.svg?style=shield)](https://app.circleci.com/pipelines/github/timo-reymann/idea-ansible-vault-integration)
