@@ -1,0 +1,47 @@
+package de.achimonline.ansible_vault_integration.runnable.string
+
+import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
+import de.achimonline.ansible_vault_integration.config.VaultIdentity
+import de.achimonline.ansible_vault_integration.execution.action.AnsibleVaultEncryptAction
+import de.achimonline.ansible_vault_integration.runnable.AnsibleVaultRunnable
+import de.achimonline.ansible_vault_integration.runnable.VaultRunnableMode
+import de.achimonline.ansible_vault_integration.runnable.VaultRunnableType
+import org.jetbrains.yaml.YAMLElementGenerator
+
+class EncryptStringAnsibleVaultRunnable(
+    private val project: Project,
+    private val containingFile: PsiFile,
+    private val content: String,
+    private val element: PsiElement,
+    private val vaultIdentity: VaultIdentity? = null
+) : AnsibleVaultRunnable {
+    @Throws(Exception::class)
+    override fun run() {
+        val encrypted = AnsibleVaultEncryptAction(project, containingFile, content.toByteArray(), vaultIdentity)
+            .execute()
+
+        WriteCommandAction.runWriteCommandAction(project) {
+            val generatedReplacement =
+                YAMLElementGenerator(project).createYamlKeyValue(element.parent.text, encrypted).value
+
+            // Just in case
+            if (element.context == null || generatedReplacement == null) {
+                return@runWriteCommandAction
+            }
+
+            element.context!!.replace(generatedReplacement)
+        }
+    }
+
+    override val fileName: String
+        get() = containingFile.name
+
+    override val type: VaultRunnableType
+        get() = VaultRunnableType.ENCRYPT
+
+    override val mode: VaultRunnableMode
+        get() = VaultRunnableMode.INLINE
+}

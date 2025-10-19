@@ -1,87 +1,113 @@
-Ansible Vault Integration
-===
-[![CircleCI](https://circleci.com/gh/timo-reymann/idea-ansible-vault-integration.svg?style=shield)](https://app.circleci.com/pipelines/github/timo-reymann/idea-ansible-vault-integration)
-[![GitHub Release](https://img.shields.io/github/v/tag/timo-reymann/idea-ansible-vault-integration.svg?label=version)](https://github.com/timo-reymann/idea-ansible-vault-integration/releases)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/14353-ansible-vault-integration)](https://plugins.jetbrains.com/plugin/14353-ansible-vault-integration)
-[![Rating](https://img.shields.io/jetbrains/plugin/r/rating/14353-ansible-vault-integration)](https://plugins.jetbrains.com/plugin/14353-ansible-vault-integration/reviews)
-[![Renovate](https://img.shields.io/badge/renovate-enabled-green?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNjkgMzY5Ij48Y2lyY2xlIGN4PSIxODkuOSIgY3k9IjE5MC4yIiByPSIxODQuNSIgZmlsbD0iI2ZmZTQyZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTUgLTYpIi8+PHBhdGggZmlsbD0iIzhiYjViNSIgZD0iTTI1MSAyNTZsLTM4LTM4YTE3IDE3IDAgMDEwLTI0bDU2LTU2YzItMiAyLTYgMC03bC0yMC0yMWE1IDUgMCAwMC03IDBsLTEzIDEyLTktOCAxMy0xM2ExNyAxNyAwIDAxMjQgMGwyMSAyMWM3IDcgNyAxNyAwIDI0bC01NiA1N2E1IDUgMCAwMDAgN2wzOCAzOHoiLz48cGF0aCBmaWxsPSIjZDk1NjEyIiBkPSJNMzAwIDI4OGwtOCA4Yy00IDQtMTEgNC0xNiAwbC00Ni00NmMtNS01LTUtMTIgMC0xNmw4LThjNC00IDExLTQgMTUgMGw0NyA0N2M0IDQgNCAxMSAwIDE1eiIvPjxwYXRoIGZpbGw9IiMyNGJmYmUiIGQ9Ik04MSAxODVsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzI1YzRjMyIgZD0iTTIyMCAxMDBsMjMgMjNjNCA0IDQgMTEgMCAxNkwxNDIgMjQwYy00IDQtMTEgNC0xNSAwbC0yNC0yNGMtNC00LTQtMTEgMC0xNWwxMDEtMTAxYzUtNSAxMi01IDE2IDB6Ii8+PHBhdGggZmlsbD0iIzFkZGVkZCIgZD0iTTk5IDE2N2wxOC0xOCAxOCAxOC0xOCAxOHoiLz48cGF0aCBmaWxsPSIjMDBhZmIzIiBkPSJNMjMwIDExMGwxMyAxM2M0IDQgNCAxMSAwIDE2TDE0MiAyNDBjLTQgNC0xMSA0LTE1IDBsLTEzLTEzYzQgNCAxMSA0IDE1IDBsMTAxLTEwMWM1LTUgNS0xMSAwLTE2eiIvPjxwYXRoIGZpbGw9IiMyNGJmYmUiIGQ9Ik0xMTYgMTQ5bDE4LTE4IDE4IDE4LTE4IDE4eiIvPjxwYXRoIGZpbGw9IiMxZGRlZGQiIGQ9Ik0xMzQgMTMxbDE4LTE4IDE4IDE4LTE4IDE4eiIvPjxwYXRoIGZpbGw9IiMxYmNmY2UiIGQ9Ik0xNTIgMTEzbDE4LTE4IDE4IDE4LTE4IDE4eiIvPjxwYXRoIGZpbGw9IiMyNGJmYmUiIGQ9Ik0xNzAgOTVsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzFiY2ZjZSIgZD0iTTYzIDE2N2wxOC0xOCAxOCAxOC0xOCAxOHpNOTggMTMxbDE4LTE4IDE4IDE4LTE4IDE4eiIvPjxwYXRoIGZpbGw9IiMzNGVkZWIiIGQ9Ik0xMzQgOTVsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzFiY2ZjZSIgZD0iTTE1MyA3OGwxOC0xOCAxOCAxOC0xOCAxOHoiLz48cGF0aCBmaWxsPSIjMzRlZGViIiBkPSJNODAgMTEzbDE4LTE3IDE4IDE3LTE4IDE4ek0xMzUgNjBsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzk4ZWRlYiIgZD0iTTI3IDEzMWwxOC0xOCAxOCAxOC0xOCAxOHoiLz48cGF0aCBmaWxsPSIjYjUzZTAyIiBkPSJNMjg1IDI1OGw3IDdjNCA0IDQgMTEgMCAxNWwtOCA4Yy00IDQtMTEgNC0xNiAwbC02LTdjNCA1IDExIDUgMTUgMGw4LTdjNC01IDQtMTIgMC0xNnoiLz48cGF0aCBmaWxsPSIjOThlZGViIiBkPSJNODEgNzhsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzAwYTNhMiIgZD0iTTIzNSAxMTVsOCA4YzQgNCA0IDExIDAgMTZMMTQyIDI0MGMtNCA0LTExIDQtMTUgMGwtOS05YzUgNSAxMiA1IDE2IDBsMTAxLTEwMWM0LTQgNC0xMSAwLTE1eiIvPjxwYXRoIGZpbGw9IiMzOWQ5ZDgiIGQ9Ik0yMjggMTA4bC04LThjLTQtNS0xMS01LTE2IDBMMTAzIDIwMWMtNCA0LTQgMTEgMCAxNWw4IDhjLTQtNC00LTExIDAtMTVsMTAxLTEwMWM1LTQgMTItNCAxNiAweiIvPjxwYXRoIGZpbGw9IiNhMzM5MDQiIGQ9Ik0yOTEgMjY0bDggOGM0IDQgNCAxMSAwIDE2bC04IDdjLTQgNS0xMSA1LTE1IDBsLTktOGM1IDUgMTIgNSAxNiAwbDgtOGM0LTQgNC0xMSAwLTE1eiIvPjxwYXRoIGZpbGw9IiNlYjZlMmQiIGQ9Ik0yNjAgMjMzbC00LTRjLTYtNi0xNy02LTIzIDAtNyA3LTcgMTcgMCAyNGw0IDRjLTQtNS00LTExIDAtMTZsOC04YzQtNCAxMS00IDE1IDB6Ii8+PHBhdGggZmlsbD0iIzEzYWNiZCIgZD0iTTEzNCAyNDhjLTQgMC04LTItMTEtNWwtMjMtMjNhMTYgMTYgMCAwMTAtMjNMMjAxIDk2YTE2IDE2IDAgMDEyMiAwbDI0IDI0YzYgNiA2IDE2IDAgMjJMMTQ2IDI0M2MtMyAzLTcgNS0xMiA1em03OC0xNDdsLTQgMi0xMDEgMTAxYTYgNiAwIDAwMCA5bDIzIDIzYTYgNiAwIDAwOSAwbDEwMS0xMDFhNiA2IDAgMDAwLTlsLTI0LTIzLTQtMnoiLz48cGF0aCBmaWxsPSIjYmY0NDA0IiBkPSJNMjg0IDMwNGMtNCAwLTgtMS0xMS00bC00Ny00N2MtNi02LTYtMTYgMC0yMmw4LThjNi02IDE2LTYgMjIgMGw0NyA0NmM2IDcgNiAxNyAwIDIzbC04IDhjLTMgMy03IDQtMTEgNHptLTM5LTc2Yy0xIDAtMyAwLTQgMmwtOCA3Yy0yIDMtMiA3IDAgOWw0NyA0N2E2IDYgMCAwMDkgMGw3LThjMy0yIDMtNiAwLTlsLTQ2LTQ2Yy0yLTItMy0yLTUtMnoiLz48L3N2Zz4=)](https://renovatebot.com)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=timo-reymann_idea-ansible-vault-integration&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=timo-reymann_idea-ansible-vault-integration)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=timo-reymann_idea-ansible-vault-integration&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=timo-reymann_idea-ansible-vault-integration)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftimo-reymann%2Fidea-ansible-vault-integration.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftimo-reymann%2Fidea-ansible-vault-integration?ref=badge_shield)
+# ![IDEA Ansible Vault Integration](src/main/resources/META-INF/pluginIcon.png#gh-light-mode-only) ![IDEA Ansible Vault Integration](src/main/resources/META-INF/pluginIcon_dark.png#gh-dark-mode-only) IDEA&nbsp;Ansible&nbsp;Vault&nbsp;Integration
 
-<p align="center">
-	<img width="300" src="./src/main/resources/META-INF/pluginIcon.svg">
-    <br />
-	Integrate the ansible vault directly into IntelliJ IDEA with context actions for vaulting and unvaulting secrets. This
-	makes working with ansible-vault a breeze!
-</p>
+> Integrate _Ansible Vault_ directly into _IntelliJ IDEA_ with context actions for vaulting and unvaulting secrets.
 
-> WARNING: this plugin is in maintenance mode. I don't use Ansible that much anymore, so I will not be able to
-> maintain it as much as I would like to. If you want to take over, please reach out to me.
+> [!NOTE]  
+> This project/plugin was [originally](https://github.com/timo-reymann/idea-ansible-vault-integration) created by [Timo Reymann](https://github.com/timo-reymann).  
 >
-> I will still keep it up to date with the latest IntelliJ IDEA versions, but I will not add any new features or fix
-> bugs unless they are critical.
+> Timo decided to hand the plugin over to me ([4ch1m](https://github.com/4ch1m)) for future development and maintenance.  
+> So credits and thanks go out to Timo for creating this helpful plugin in the first place. :+1: :bow:
+> 
+> Starting with `4.0.0`, all future versions of this plugin (available on the [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/14353-ansible-vault-integration)) will be built from this fork/repository.  
 
-## Features
-
-### Vaulting secrets
-
-Vault any text from within your yaml file, just hint ``Alt+Enter`` -> ``Vault ansible secret``
-
-### Unvaulting secrets
-
-Unvaulting is as easy as placing your cursor in the secret, hitting ``Alt+Enter`` -> ``Unvault ansible secret`` and you
-are done!
-
-## Requirements
-
-- IDEA-based IDE compatible with the plugin
+* [Installation](#installation)
+* [Setup](#setup)
+* [Usage](#usage)
+    * [Basic Features](#basic-features)
+        * [Vaulting variables](#vaulting-variables)
+        * [Unvaulting variables](#unvaulting-variables)
+        * [(Un)Vaulting files](#unvaulting-files)
+    * [Additional Features](#additional-features)
+        * [Environment variables](#environment-variables)
+* [License](#license)
+* [Credits](#credits)
+* [Donate](#donate)
 
 ## Installation
 
-1. Press (Ctrl+Alt+S/⌘/) to open the IDE settings and select Plugins.
-2. Search for `MJML Support` in the Marketplace and click Install.
+Use the IDE's built-in plugin system:
+
+* `File` --> `Settings...` --> `Plugins` --> `Marketplace`
+* search for: `Ansible Vault Integration`
+* click the `Install`-button
+
+Or go to the [plugin page](https://plugins.jetbrains.com/plugin/14353-ansible-vault-integration) on the [JetBrains](https://www.jetbrains.com)-website, download the archive-file and install manually.
+
+## Setup
+
+Use the settings dialog of the plugin to adjust everything as needed.
+
+> ![settings](screenshots/settings.png)
+
+Using the `Command line arguments` you can set your preferred way of providing the vault-password.
+
+e.g.:
+
+| Arguments                                           | Effect                                                         |
+|:----------------------------------------------------|:---------------------------------------------------------------|
+| `--vault-password-file .project-secret`             | use secret stored in project                                   |
+| `--vault-password-file ~/.ansible-secret`           | use secret stored in home directory                            |
+| `--vault-password-file .idea-get-vault-password.sh` | generate secret from script (check detailed explanation below) |
 
 ## Usage
 
-### Configure ansible-vault call
+### Basic Features
 
-Got a custom vault file for your project? - I got you covered with custom command line arguments!
+#### Vaulting variables
 
-### Provided environment variables
+Vault any variable from within your YAML file.  
 
-In case you are using a script to provide your vault secret, the plugin provides the following environment variables:
+Simply ...
+ 
+* place the cursor over the variable's content/value
+* hit <kbd>Alt</kbd> + <kbd>Enter</kbd>
+* choose "_Vault Ansible secret_"
 
-| Environment variable                         | Content                                                             |
-|:---------------------------------------------|:--------------------------------------------------------------------|
-| IDEA_ANSIBLE_VAULT_CONTEXT_FILE              | Absolute path to the file the vault/unvault action was triggered in |
-| IDEA_ANSIBLE_VAULT_CONTEXT_DIRECTORY         | Name of the directory the action was triggered in, **NO** path      |
-| IDEA_ANSIBLE_VAULT_CONTEXT_PROJECT_BASE_PATH | Absolute path of the project the action was triggered in            |
-| IDEA_ANSIBLE_VAULT_CONTEXT_PROJECT_NAME      | Name of the project the action was triggered in                     |
+... done!
 
-#### Examples
+[//]: # (TODO new screenshot)
+> ![encrypt](screenshots/encrypt.jpg)
 
-Navigate to `Settings | Tools | Ansible Vault`
+#### Unvaulting variables
 
-##### Configure secret file in current project
+Unvaulting is as just as easy.
 
-Use following cli args:
+* place your cursor over the vaulted secret
+* hit <kbd>Alt</kbd> + <kbd>Enter</kbd>
+* choose "_Unvault Ansible secret_"
 
-```
---vault-password-file .project-secret
-```
+The decrypted content is now in your clipboard for further usage.
 
-##### Configure secret file in home directory
+[//]: # (TODO new screenshot)
+> ![decrypt](screenshots/decrypt.jpg)
 
-Use following cli args:
+#### (Un)Vaulting files
 
-```
---vault-password-file ~/.ansible-secret
-```
+Vaulting and unvaulting whole files is also possible via the file's context-menu.
 
-##### Configure secret based on maturity
+[//]: # (TODO explanation and screenshot)
+> ![vault_files](screenshots/vault_files.jpg)
 
-Let's say you have an ansible setup with three stages (dev, qa, prod), with the following directory structure:
+### Additional Features
+
+#### Environment variables
+
+_Ansible Vault_ lets you provide passwords not only from a static plaintext file, but also an executable script.
+
+If the file referenced via `--vault-password-file` is being detected as an executable, then its (StdOut-)return value will be used as passphrase. 
+
+To give you full control, the plugin provides the following environment variables (ready to be used in the password-file-script):
+
+| Environment variable                           | Content                                                                                 |
+|:-----------------------------------------------|:----------------------------------------------------------------------------------------|
+| `IDEA_ANSIBLE_VAULT_CONTEXT_FILE`              | absolute path to the file the vault/unvault action was triggered in                     |
+| `IDEA_ANSIBLE_VAULT_CONTEXT_DIRECTORY`         | name of the directory the vault/unvault action was triggered in (**NOT** the full path) |
+| `IDEA_ANSIBLE_VAULT_CONTEXT_PROJECT_BASE_PATH` | absolute path of the project the vault/unvault action was triggered in                  |
+| `IDEA_ANSIBLE_VAULT_CONTEXT_PROJECT_NAME`      | name of the project the action was triggered in                                         |
+
+**Example: Configure secret based on maturity**
+
+Let's say you have an Ansible setup with three stages (`dev`, `qa`, `prod`), with the following directory structure:
 
 ```
 group-vars/
@@ -91,17 +117,10 @@ group-vars/
     prod/vars.yml
 ```
 
-For each maturity you have a different vault file following this pattern: `.${maturity}.secret`, you can use the
-following
-configuration:
+For each maturity you have a different vault file (following this pattern: `.${maturity}.secret`), you can use the following configuration:
 
-Cli args:
-
-```
---vault-password-file .idea-get-vault-password.sh
-```
-
-Create the file `.idea-get-vault-password.sh` (0700):
+* use CLI args `--vault-password-file .idea-get-vault-password.sh` in plugin settings
+* create the file `.idea-get-vault-password.sh` (`0700`) in your project root
 
 ```bash
 #!/usr/bin/env bash
@@ -139,40 +158,18 @@ case "$IDEA_ANSIBLE_VAULT_CONTEXT_DIRECTORY" in
 esac
 ```
 
-## Motivation
+It's magic! :magic_wand:
 
-Ansible is great, but the ansible-vault is a piece of junk to use for passwords to encrypt and decrypt.
+## License
 
-## Contributing
+Please read the [license](LICENSE) file.
 
-I love your input! I want to make contributing to this project as easy and transparent as possible, whether it's:
+## Credits
 
-- Reporting a bug
-- Discussing the current state of the configuration
-- Submitting a fix
-- Proposing new features
-- Becoming a maintainer
+Icons from [FontAwesome](https://fontawesome.com/):
+* [Vault](https://fontawesome.com/icons/vault?s=solid&f=classic) 
+* [Heart](https://fontawesome.com/icons/heart?s=solid&f=classic) 
 
-To get started please read the [Contribution Guidelines](./CONTRIBUTING.md).
+## Donate
 
-## Development
-
-### Requirements
-
-- [Java](https://openjdk.org/)
-
-### Test
-
-```shell
-# To run unit tests
-./gradlew test
-
-# To run plugin verifier to check compability
-./gradlew verifyPlugin
-```
-
-### Build
-
-```shell
-./gradlew buildPlugin
-```
+If you like this plugin, please consider a [donation](https://paypal.me/AchimSeufert). Thank you!

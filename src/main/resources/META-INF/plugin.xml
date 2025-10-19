@@ -1,173 +1,47 @@
-<idea-plugin url="https://github.com/timo-reymann/idea-ansible-vault-integration">
+<idea-plugin>
     <id>com.github.timo_reymann.ansible_vault_integration</id>
+
     <name>Ansible Vault Integration</name>
-    <version>XXX</version>
-    <vendor email="jetbrains-plugins@timo-reymann.de" url="https://timo-reymann.de/">Timo Reymann</vendor>
-    <category>
 
-    </category>
-    <description><![CDATA[
-        Integrate the ansible vault directly into IntelliJ IDEA with context actions for vaulting and unvaulting secrets.
-        This makes working with ansible-vault a breeze!
-        ]]></description>
+    <vendor
+            email="intellij@achimonline.de"
+            url="https://www.achimonline.de">
+        Achim Seufert
+    </vendor>
 
-    <change-notes><![CDATA[
-        <ul>
-            <li>3.3.0
-                <ul>
-                    <li>Replace deprecated WSL Path API call</li>
-                </ul>
-            </li>
-            <li>3.2.1
-                <ul>
-                    <li>Migrate align for text fields to Kotlin DSL v2</li>
-                </ul>
-            </li>
-            <li>3.2.0
-                <ul>
-                    <li>Add support for binary files (<a href="https://github.com/timo-reymann/idea-ansible-vault-integration/issues/51">#51</a>)</li>
-                    <li>Notifications are now grouped together and provide even better output of errors and what has been done</li>
-                    <li>Use v2 Kotlin DSL for Settings UI to make sure it works smooth in newer versions of IntelliJ</li>
-                    <li>Plugin now requires IntelliJ platform 2022.3+</li>
-                    <li>Improve performance for vault file check by only reading first bytes instead of traversing PSI</li>
-                </ul>
-            </li>
-            <li>3.1.0
-                <ul>
-                    <li>
-                        Add support for multiple files to be encrypted at once
-                        (<a href="https://github.com/timo-reymann/idea-ansible-vault-integration/pull/50">#50</a>) - by <a href="https://github.com/4ch1m">@4ch1m</a>
-                    </li>
-                </ul>
-            </li>
-            <li>3.0.0
-                <ul>
-                    <li>
-                        Don't omit empty lines of decrypted content
-                        (<a href="https://github.com/timo-reymann/idea-ansible-vault-integration/pull/49">#49</a>) - by <a href="https://github.com/4ch1m">@4ch1m</a>
-                        - this might break current assumptions or formats so please check before updating and report if this change affects you.
-                    </li>
-                </ul>
-            <li>2.4.0
-                <ul>
-                    <li>
-                        Add environment variables to custom vault script execution for project information
-                        (<a href="https://github.com/timo-reymann/idea-ansible-vault-integration/pull/48">#48</a>) - by <a href="https://github.com/4ch1m">@4ch1m</a>
-                    </li>
-                </ul>
-            </li>
-            <li>2.3.0
-                <ul>
-                    <li>
-                        Improve error message for invalid executable
-                        (<a href="https://github.com/timo-reymann/idea-ansible-vault-integration/issues/44">#44</a>)
-                    </li>
-                </ul>
-            </li>
-            <li>2.2.1
-                <ul>
-                    <li>Fix invalid padding in some cases of ansible vault context action</li>
-                </ul>
-            </li>
-            <li>2.2.0
-                <ul>
-                    <li>
-                        Add support for ansible vault-identity-list
-                        (<a href="https://github.com/timo-reymann/idea-ansible-vault-integration/issues/15">#15</a>)
-                    </li>
-                </ul>
-            </li>
-            <li>2.1.2
-                <ul>
-                    <li>Fix missing intention description errors</li>
-                </ul>
-            </li>
-            <li>2.1.0
-                <ul>
-                    <li>
-                        Add vault/unvault action for entire files
-                        (<a href="https://github.com/timo-reymann/idea-ansible-vault-integration/issues/8">#8</a>)
-                    </li>
-                </ul>
-            </li>
-            <li>2.0.1
-                <ul>
-                    <li>Dont provide context action for decryption for full encrypted files (<a
-                            href="https://github.com/timo-reymann/idea-ansible-vault-integration/issues/8">#8</a>)
-                    </li>
-                </ul>
-            </li>
-            <li>2.0.0
-                <ul>
-                    <li>More context for configuration and better pre-validation</li>
-                    <li>Plugin completely rewritten in Kotlin</li>
-                </ul>
-            </li>
-            <li>1.4.0
-                <ul>
-                    <li>Make timeout for commands configurable</li>
-                </ul>
-            </li>
-            <li>1.3.0
-                <ul>
-                    <li>Add WSL support</li>
-                </ul>
-            </li>
-            <li>1.2.0
-                <ul>
-                    <li>Add environment variables to allow custom scripts</li>
-                </ul>
-            </li>
-            <li>1.1.0
-                <ul>
-                    <li>Add plugin icon</li>
-                </ul>
-            </li>
-            <li>1.0.0
-                <ul>
-                    <li>Make ansible-vault execution realtive to project root</li>
-                </ul>
-            </li>
-            <li>0.0.1
-                <ul>
-                    <li>Initial plugin creation. This is where it all starts.</li>
-                </ul>
-            </li>
-        </ul>
-        ]]></change-notes>
-
-    <!-- Dependencies -->
-    <idea-version since-build="223.8617.56"/>
-    <depends>org.jetbrains.plugins.yaml</depends>
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Quick Actions -->
         <intentionAction>
-            <className>de.timo_reymann.ansible_vault_integration.intention.UnvaultIntentionAction</className>
-            <category>Ansible</category>
+            <className>de.achimonline.ansible_vault_integration.intention.UnvaultIntentionAction</className>
+            <categoryKey>intention.category</categoryKey>
         </intentionAction>
+
         <intentionAction>
-            <className>de.timo_reymann.ansible_vault_integration.intention.VaultIntentionAction</className>
-            <category>Ansible</category>
+            <className>de.achimonline.ansible_vault_integration.intention.VaultIntentionAction</className>
+            <categoryKey>intention.category</categoryKey>
         </intentionAction>
-        <!-- Configuration -->
-        <projectConfigurable id="de.timo_reymann.ansible_vault_integration.settings.AnsibleVaultSettings"
-                             groupId="tools"
-                             key="settings.display_name"
-                             instance="de.timo_reymann.ansible_vault_integration.settings.AnsibleVaultSettingsConfigurable"/>
-        <projectService
-                serviceImplementation="de.timo_reymann.ansible_vault_integration.settings.AnsibleVaultSettings"/>
-        <projectService
-                serviceImplementation="de.timo_reymann.ansible_vault_integration.config.AnsibleConfigurationService"/>
+
+        <projectConfigurable
+                id="de.achimonline.ansible_vault_integration.settings.AnsibleVaultSettingsConfigurable"
+                groupId="tools"
+                key="settings.display_name"
+                instance="de.achimonline.ansible_vault_integration.settings.AnsibleVaultSettingsConfigurable"/>
+
+        <projectService serviceImplementation="de.achimonline.ansible_vault_integration.settings.AnsibleVaultSettings"/>
+
+        <projectService serviceImplementation="de.achimonline.ansible_vault_integration.config.AnsibleConfigurationService"/>
     </extensions>
+
     <actions>
-        <action id="de.timo_reymann.ansible_vault_integration.execution.action.action.menu.VaultFileMenuAction"
-                class="de.timo_reymann.ansible_vault_integration.intention.menu.VaultFileMenuAction"
+        <action id="de.achimonline.ansible_vault_integration.execution.action.action.menu.VaultFileMenuAction"
+                class="de.achimonline.ansible_vault_integration.intention.menu.VaultFileMenuAction"
                 text="Vault/Unvault File(s)"
                 description="Encrypt/Decrypt the given file(s) using ansible-vault">
             <add-to-group group-id="CutCopyPasteGroup" anchor="last"/>
         </action>
     </actions>
+
     <resource-bundle>messages.AnsibleVaultIntegrationBundle</resource-bundle>
 </idea-plugin>

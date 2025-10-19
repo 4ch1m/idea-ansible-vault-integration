@@ -1,1 +1,1 @@
-rootProject.name = "Ansible Vault Integration"
+rootProject.name = "idea-ansible-vault-integration"
