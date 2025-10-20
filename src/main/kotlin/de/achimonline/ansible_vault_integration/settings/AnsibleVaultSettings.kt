@@ -5,7 +5,7 @@ import com.intellij.openapi.project.Project
 
 @State(
     name = "de.achimonline.ansible_vault_integration.settings.AnsibleVaultSettings",
-    storages = [Storage("ansibleVaultSettings.xml")]
+    storages = [Storage("ansibleVaultIntegrationSettings.xml")]
 )
 open class AnsibleVaultSettings : PersistentStateComponent<AnsibleVaultSettings>, BaseState() {
     var vaultExecutable: String by nonNullString(DEFAULT_VAULT_EXECUTABLE)

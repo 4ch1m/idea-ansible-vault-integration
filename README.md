@@ -65,8 +65,7 @@ Simply ...
 
 ... done!
 
-[//]: # (TODO new screenshot)
-> ![encrypt](screenshots/encrypt.jpg)
+> ![encrypt](screenshots/encrypt.png)
 
 #### Unvaulting variables
 
@@ -78,15 +77,13 @@ Unvaulting is as just as easy.
 
 The decrypted content is now in your clipboard for further usage.
 
-[//]: # (TODO new screenshot)
-> ![decrypt](screenshots/decrypt.jpg)
+> ![decrypt](screenshots/decrypt.png)
 
 #### (Un)Vaulting files
 
 Vaulting and unvaulting whole files is also possible via the file's context-menu.
 
-[//]: # (TODO explanation and screenshot)
-> ![vault_files](screenshots/vault_files.jpg)
+> ![vault_files](screenshots/vault_files.png)
 
 ### Additional Features
 
