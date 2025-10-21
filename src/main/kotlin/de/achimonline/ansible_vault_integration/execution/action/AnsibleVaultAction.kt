@@ -3,7 +3,7 @@ package de.achimonline.ansible_vault_integration.execution.action
 import com.intellij.execution.ExecutionException
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.process.OSProcessHandler
-import com.intellij.execution.process.ProcessAdapter
+import com.intellij.execution.process.ProcessListener
 import com.intellij.execution.process.ProcessEvent
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.wsl.WslPath
@@ -35,7 +35,7 @@ abstract class AnsibleVaultAction(protected val project: Project, protected val 
     protected fun createTempFile(input: ByteArray): File {
         val tempFile = FileUtil.createTempFile("vault", "tmp")
 
-        FileUtil.writeToFile(tempFile, input!!)
+        FileUtil.writeToFile(tempFile, input)
 
         return tempFile
     }
@@ -54,7 +54,7 @@ abstract class AnsibleVaultAction(protected val project: Project, protected val 
             processHandler = OSProcessHandler(getVaultCommandLine(project, contextPath, actionName, parameters, stdin))
 
             // output
-            processHandler.addProcessListener(object : ProcessAdapter() {
+            processHandler.addProcessListener(object : ProcessListener {
                 @Synchronized
                 override fun onTextAvailable(event: ProcessEvent, outputType: Key<*>) {
                     val stdoutLine = event.text.trim { it <= ' ' }

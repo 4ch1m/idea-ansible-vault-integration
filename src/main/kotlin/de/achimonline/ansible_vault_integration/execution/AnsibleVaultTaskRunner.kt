@@ -50,7 +50,7 @@ class AnsibleVaultTaskRunner(
 
         if (failed.size > 1 || succeeded.size > 1) { // for multiple selected
             when {
-                failed.size == 0 -> { // no failed tasks
+                failed.isEmpty() -> { // no failed tasks
                     notification = Notification(
                         NOTIFICATION_GROUP_ID,
                         AnsibleVaultIntegrationBundle.message(
@@ -62,7 +62,7 @@ class AnsibleVaultTaskRunner(
                     )
                 }
 
-                failed.size > 0 && succeeded.size > 0 -> { // partially failed
+                succeeded.isNotEmpty() -> { // partially failed
                     notification = Notification(
                         NOTIFICATION_GROUP_ID,
                         AnsibleVaultIntegrationBundle.message(

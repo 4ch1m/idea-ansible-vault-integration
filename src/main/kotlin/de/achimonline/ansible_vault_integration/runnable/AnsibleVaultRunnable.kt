@@ -8,8 +8,8 @@ enum class VaultRunnableType {
 
     override fun toString(): String {
         return when (this) {
-            ENCRYPT -> AnsibleVaultIntegrationBundle.message("action.encrypt")
-            DECRYPT -> AnsibleVaultIntegrationBundle.message("action.decrypt")
+            ENCRYPT -> AnsibleVaultIntegrationBundle.message("action.vault")
+            DECRYPT -> AnsibleVaultIntegrationBundle.message("action.unvault")
         }
     }
 

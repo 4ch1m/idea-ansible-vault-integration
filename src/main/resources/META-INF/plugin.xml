@@ -14,11 +14,13 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <intentionAction>
+            <language/>
             <className>de.achimonline.ansible_vault_integration.intention.UnvaultIntentionAction</className>
             <categoryKey>intention.category</categoryKey>
         </intentionAction>
 
         <intentionAction>
+            <language/>
             <className>de.achimonline.ansible_vault_integration.intention.VaultIntentionAction</className>
             <categoryKey>intention.category</categoryKey>
         </intentionAction>
@@ -35,10 +37,8 @@
     </extensions>
 
     <actions>
-        <action id="de.achimonline.ansible_vault_integration.execution.action.action.menu.VaultFileMenuAction"
-                class="de.achimonline.ansible_vault_integration.intention.menu.VaultFileMenuAction"
-                text="Vault/Unvault File(s)"
-                description="Encrypt/Decrypt the given file(s) using ansible-vault">
+        <action id="vault_or_unvault_file"
+                class="de.achimonline.ansible_vault_integration.intention.menu.VaultFileMenuAction">
             <add-to-group group-id="CutCopyPasteGroup" anchor="last"/>
         </action>
     </actions>
