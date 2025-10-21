@@ -1,9 +1,11 @@
 package de.achimonline.ansible_vault_integration.config
 
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.project.Project
 
+@Service(Service.Level.PROJECT)
 class AnsibleConfigurationService(project: Project) {
     private val ansibleConfigurationFileFinder = AnsibleConfigurationFileFinder(project)
     private val configCache = mutableMapOf<String, AnsibleConfigurationFile>()

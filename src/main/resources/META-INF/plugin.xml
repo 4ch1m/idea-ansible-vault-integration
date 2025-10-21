@@ -32,8 +32,6 @@
                 instance="de.achimonline.ansible_vault_integration.settings.AnsibleVaultSettingsConfigurable"/>
 
         <projectService serviceImplementation="de.achimonline.ansible_vault_integration.settings.AnsibleVaultSettings"/>
-
-        <projectService serviceImplementation="de.achimonline.ansible_vault_integration.config.AnsibleConfigurationService"/>
     </extensions>
 
     <actions>

@@ -103,7 +103,8 @@ abstract class AnsibleVaultAction(protected val project: Project, protected val 
         } catch (e: IOException) {
             wrapException(e)
         }
-        return stdout.toString()
+
+        return stdout.toString().trim()
     }
 
     private fun wrapException(e : Exception) : Any = throw AnsibleVaultWrapperCallFailedException(
