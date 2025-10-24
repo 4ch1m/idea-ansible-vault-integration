@@ -8,8 +8,8 @@ group = property("pluginGroup")
 version = property("pluginVersion")
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.2.20"
-    id("org.jetbrains.intellij.platform") version "2.10.1"
+    id("org.jetbrains.kotlin.jvm") version "2.2.21"
+    id("org.jetbrains.intellij.platform") version "2.10.2"
     id("org.jetbrains.changelog") version "2.4.0"
     id("com.github.ben-manes.versions") version "0.53.0"
 }
