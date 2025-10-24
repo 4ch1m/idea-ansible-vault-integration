@@ -29,7 +29,7 @@ class AnsibleConfigurationFileParserTest {
         )
 
         assertEquals(
-            "843071daf968ddc5452bc54780a651a527792271be400d1e3a31e33dc11f1bdd",
+            getFile("ansible-stock.sha256").readText(),
             AnsibleConfigurationFileParser(getFile("ansible-stock.cfg"), 0).calculateChecksum()
         )
     }
