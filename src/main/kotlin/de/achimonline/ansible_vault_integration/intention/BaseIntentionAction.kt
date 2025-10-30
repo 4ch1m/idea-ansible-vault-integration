@@ -16,7 +16,7 @@ abstract class BaseIntentionAction(private val uiText: String) : PsiElementBaseI
     override fun getFamilyName(): @Nls(capitalization = Nls.Capitalization.Sentence) String = text
     override fun getText(): @Nls(capitalization = Nls.Capitalization.Sentence) String = uiText
 
-    // Only valid in yaml files
+    // only valid in yaml files
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
         element.language == YAMLLanguage.INSTANCE
 

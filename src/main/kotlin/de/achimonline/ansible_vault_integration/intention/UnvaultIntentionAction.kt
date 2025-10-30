@@ -4,13 +4,13 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.util.IncorrectOperationException
-import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle
+import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle.message
 import de.achimonline.ansible_vault_integration.runnable.string.DecryptStringAnsibleVaultRunnable
 import de.achimonline.ansible_vault_integration.util.AnsibleVaultedStringUtil
 import org.jetbrains.yaml.YAMLLanguage
 import org.jetbrains.yaml.YAMLTokenTypes
 
-class UnvaultIntentionAction : BaseIntentionAction(AnsibleVaultIntegrationBundle.message("intention.unvault.text")) {
+class UnvaultIntentionAction : BaseIntentionAction(message("intention.unvault.text")) {
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (!super.isAvailable(project, editor, element)) {
             return false
@@ -25,7 +25,7 @@ class UnvaultIntentionAction : BaseIntentionAction(AnsibleVaultIntegrationBundle
     private fun extractText(element: PsiElement): String? {
         val elementType = element.node.elementType
 
-        // Is inside vaulted string
+        // is inside vaulted string
         if (YAMLTokenTypes.TAG == elementType || YAMLTokenTypes.SCALAR_LIST == elementType || YAMLTokenTypes.SCALAR_EOL == elementType) {
             return element.parent.node.text
         }

@@ -11,8 +11,8 @@ open class AnsibleVaultEncryptAction(
     contextFile: PsiFile,
     override val stdin: ByteArray,
     private val vaultIdentity: VaultIdentity?,
-    private val addPrefix: Boolean = true
-) : AnsibleVaultAction(project, contextFile) {
+    private val addStringPrefix: Boolean = true
+) : AnsibleVaultAction(project, contextFile, trimResult = true) {
     override val actionName: String
         get() = "encrypt"
 
@@ -33,7 +33,7 @@ open class AnsibleVaultEncryptAction(
         val result = super.execute()
 
         return when {
-            addPrefix -> AnsibleVaultedStringUtil.addPrefix(result)
+            addStringPrefix -> AnsibleVaultedStringUtil.addStringPrefix(result)
             else -> result
         }
     }

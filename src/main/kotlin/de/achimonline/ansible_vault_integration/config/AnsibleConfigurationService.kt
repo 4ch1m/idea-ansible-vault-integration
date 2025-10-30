@@ -16,6 +16,7 @@ class AnsibleConfigurationService(project: Project) {
             .mapNotNull {
                 try {
                     val checksum = it.calculateChecksum()
+
                     if (configCache[checksum] == null) {
                         configCache[checksum] = it.parse()
                     }

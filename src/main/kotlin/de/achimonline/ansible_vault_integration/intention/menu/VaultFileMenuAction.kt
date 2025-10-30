@@ -1,12 +1,14 @@
 package de.achimonline.ansible_vault_integration.intention.menu
 
+import com.intellij.ide.SaveAndSyncHandler
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
-import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle
+import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle.message
 import de.achimonline.ansible_vault_integration.config.AnsibleConfigurationService
 import de.achimonline.ansible_vault_integration.config.VaultIdentity
 import de.achimonline.ansible_vault_integration.execution.AnsibleVaultTaskRunner
@@ -25,6 +27,7 @@ open class VaultFileMenuAction : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val psiManager = PsiManager.getInstance(project)
+        val fileDocumentManager = FileDocumentManager.getInstance()
         val vaultIdentities = AnsibleConfigurationService.getInstance(project).getAggregatedConfig().vaultIdentities
 
         runBlocking {
@@ -32,17 +35,23 @@ open class VaultFileMenuAction : AnAction() {
 
             e.getData(LangDataKeys.VIRTUAL_FILE_ARRAY)?.forEach {
                 val psiFile = psiManager.findFile(it) ?: return@forEach
-                val runnable = createFileRunnable(vaultIdentities, psiFile)
-                runnables += runnable
+
+                fileDocumentManager.getDocument(it)?.let { document ->
+                    fileDocumentManager.saveDocument(document)
+                }
+
+                runnables += createFileRunnable(vaultIdentities, psiFile)
             }
 
             progressManager.run(
                 AnsibleVaultTaskRunner(
                     project,
-                    AnsibleVaultIntegrationBundle.getMessage("background_task.multiple.initial"),
+                    message("background_task.multiple.initial"),
                     runnables
                 )
             )
+
+            SaveAndSyncHandler.getInstance().refreshOpenFiles()
         }
     }
 

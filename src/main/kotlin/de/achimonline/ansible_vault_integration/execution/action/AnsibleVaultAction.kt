@@ -6,6 +6,7 @@ import com.intellij.execution.process.OSProcessHandler
 import com.intellij.execution.process.ProcessListener
 import com.intellij.execution.process.ProcessEvent
 import com.intellij.execution.process.ProcessHandler
+import com.intellij.execution.process.ProcessOutputType
 import com.intellij.execution.wsl.WslPath
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
@@ -13,7 +14,7 @@ import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.psi.PsiFile
 import com.intellij.util.containers.stream
-import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle
+import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle.message
 import de.achimonline.ansible_vault_integration.commandline.AnsibleCommandLineTransformer
 import de.achimonline.ansible_vault_integration.commandline.AnsibleVaultCommandLineBuilder
 import de.achimonline.ansible_vault_integration.commandline.NoOpAnsibleCommandLineTransformer
@@ -23,17 +24,29 @@ import de.achimonline.ansible_vault_integration.settings.AnsibleVaultSettings
 import java.io.File
 import java.io.IOException
 import java.nio.file.Path
-import java.util.concurrent.atomic.AtomicLong
+import java.nio.file.attribute.PosixFilePermission
 import java.util.stream.Collectors
+import kotlin.io.path.setPosixFilePermissions
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-abstract class AnsibleVaultAction(protected val project: Project, protected val contextFile: PsiFile) {
+@OptIn(ExperimentalUuidApi::class)
+abstract class AnsibleVaultAction(
+    protected val project: Project,
+    protected val contextFile: PsiFile,
+    protected val trimResult: Boolean
+) {
     protected abstract val actionName: String
     protected abstract val stdin: ByteArray
     protected abstract val parameters: List<String>
 
     @Throws(IOException::class)
     protected fun createTempFile(input: ByteArray): File {
-        val tempFile = FileUtil.createTempFile("vault", "tmp")
+        val tempFile = FileUtil.createTempFile("idea-ansible-vault-integration_${Uuid.random()}", ".tmp", true)
+        tempFile.toPath().setPosixFilePermissions(setOf(
+            PosixFilePermission.OWNER_READ,
+            PosixFilePermission.OWNER_WRITE
+        ))
 
         FileUtil.writeToFile(tempFile, input)
 
@@ -46,8 +59,8 @@ abstract class AnsibleVaultAction(protected val project: Project, protected val 
     @Throws(AnsibleVaultWrapperCallFailedException::class)
     private fun executeCommand(): String {
         val processHandler: ProcessHandler
+        val stderr = StringBuffer()
         val stdout = StringBuffer()
-        val line = AtomicLong(0)
 
         try {
             val contextPath = contextFile.virtualFile.toNioPath()
@@ -57,42 +70,35 @@ abstract class AnsibleVaultAction(protected val project: Project, protected val 
             processHandler.addProcessListener(object : ProcessListener {
                 @Synchronized
                 override fun onTextAvailable(event: ProcessEvent, outputType: Key<*>) {
-                    val stdoutLine = event.text.trim { it <= ' ' }
-
-                    // Omit warnings
-                    if (stdoutLine.startsWith("WARNING") || stdoutLine.startsWith("DEPRECATION")) {
-                        return
+                    if (ProcessOutputType.isStderr(outputType)) {
+                        stderr.append(event.text)
                     }
 
-                    // First line is command output, remove it from stdout
-                    if (line.incrementAndGet() == 1L) {
-                        return
+                    if (ProcessOutputType.isStdout(outputType)) {
+                        stdout.append(event.text)
                     }
-
-                    // Remove trailing line breaks
-                    stdout.append(event.text)
                 }
             })
 
             processHandler.startNotify()
 
-            // Error waiting for graceful exit
+            // error waiting for graceful exit
             if (!processHandler.waitFor(AnsibleVaultSettings.getInstance(project).state.timeout * 1000L)) {
                 processHandler.destroyProcess()
                 throw AnsibleVaultWrapperCallFailedException(
-                    AnsibleVaultIntegrationBundle.message(
+                    message(
                         "exception.AnsibleVaultWrapperCallFailedException.time_out",
-                        stdout
+                        "${if (stderr.toString().isNotEmpty()) "$stderr\n" else ""}$stdout"
                     )
                 )
             }
 
             if (processHandler.exitCode != null && processHandler.exitCode != 0) {
                 throw AnsibleVaultWrapperCallFailedException(
-                    AnsibleVaultIntegrationBundle.message(
+                    message(
                         "exception.AnsibleVaultWrapperCallFailedException.exit_code",
                         processHandler.exitCode!!,
-                        stdout
+                        "${if (stderr.toString().isNotEmpty()) "$stderr\n" else ""}$stdout"
                     )
                 )
             }
@@ -104,11 +110,11 @@ abstract class AnsibleVaultAction(protected val project: Project, protected val 
             wrapException(e)
         }
 
-        return stdout.toString().trim()
+        return if (trimResult) stdout.toString().trim() else stdout.toString()
     }
 
     private fun wrapException(e : Exception) : Any = throw AnsibleVaultWrapperCallFailedException(
-        AnsibleVaultIntegrationBundle.message(
+        message(
             "exception.AnsibleVaultWrapperCallFailedException.internal_error",
             e.message ?: "No message available"
         )
@@ -133,7 +139,7 @@ abstract class AnsibleVaultAction(protected val project: Project, protected val 
 
         if (!File(vaultExecutable).exists()) {
             throw AnsibleVaultWrapperCallFailedException(
-                AnsibleVaultIntegrationBundle.getMessage("exception.AnsibleVaultWrapperCallFailedException.executable_not_found")
+                message("exception.AnsibleVaultWrapperCallFailedException.executable_not_found")
             )
         }
 

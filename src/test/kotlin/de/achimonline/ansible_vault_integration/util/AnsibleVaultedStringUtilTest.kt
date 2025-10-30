@@ -6,7 +6,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class AnsibleVaultedStringUtilTest {
-
     @Test
     fun `Test vaulted strings are detected correctly`() {
         assertFalse { AnsibleVaultedStringUtil.isVaultedString("notVaulted") }
@@ -25,7 +24,7 @@ class AnsibleVaultedStringUtilTest {
 
     @Test
     fun `Test removing prefix`() {
-        val removed = AnsibleVaultedStringUtil.removePrefix(
+        val removed = AnsibleVaultedStringUtil.removeStringPrefix(
             """
             !vault |
             test
@@ -43,7 +42,7 @@ class AnsibleVaultedStringUtilTest {
 
     @Test
     fun `Test adding prefix`() {
-        val prefixed = AnsibleVaultedStringUtil.addPrefix(
+        val prefixed = AnsibleVaultedStringUtil.addStringPrefix(
             """
             test
         """.trimIndent()

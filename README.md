@@ -18,6 +18,7 @@
         * [Unvaulting variables](#unvaulting-variables)
         * [(Un)Vaulting files](#unvaulting-files)
     * [Additional Features](#additional-features)
+        * [Identity handling](#identity-handling)
         * [Environment variables](#environment-variables)
 * [License](#license)
 * [Credits](#credits)
@@ -86,6 +87,22 @@ Vaulting and unvaulting whole files is also possible via the file's context-menu
 > ![vault_files](screenshots/vault_files.png)
 
 ### Additional Features
+
+#### Identity handling
+
+The plugin greatly simplifies the usage of multiple Ansible Vault identities.
+
+Adjust your [Ansible configuration](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible-configuration-settings-locations) as needed.  
+The vault action then will provide the according options.
+
+e.g.:
+
+```
+[defaults]
+vault_identity_list = my_first_vault@~/ansible/passwords/my_first_vault, my_second_vault@~/ansible/passwords/my_second_vault, my_third_vault@~/ansible/passwords/my_third_vault
+```
+
+> ![identities](screenshots/identities.png)
 
 #### Environment variables
 

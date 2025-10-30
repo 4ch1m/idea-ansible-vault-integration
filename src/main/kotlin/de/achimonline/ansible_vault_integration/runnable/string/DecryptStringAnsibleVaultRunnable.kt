@@ -17,8 +17,12 @@ class DecryptStringAnsibleVaultRunnable(
 ) : AnsibleVaultRunnable {
     @Throws(Exception::class)
     override fun run() {
-        val decrypted = AnsibleVaultDecryptAction(project, containingFile, raw)
-            .execute()
+        val decrypted = AnsibleVaultDecryptAction(
+            project = project,
+            contextFile = containingFile,
+            trimResult = true,
+            encrypted = raw
+        ).execute()
 
         ClipboardSynchronizer.getInstance()
             .setContent(TextTransferable(decrypted, decrypted), CopyPasteManagerEx.getInstanceEx())

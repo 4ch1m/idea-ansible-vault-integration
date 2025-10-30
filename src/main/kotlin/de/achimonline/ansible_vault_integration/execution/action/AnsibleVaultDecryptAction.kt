@@ -7,13 +7,14 @@ import com.intellij.psi.PsiFile
 open class AnsibleVaultDecryptAction(
     project: Project,
     contextFile: PsiFile,
+    trimResult: Boolean,
     private val encrypted: String
-) : AnsibleVaultAction(project, contextFile) {
+) : AnsibleVaultAction(project, contextFile, trimResult) {
     override val actionName: String
         get() = "decrypt"
 
     override val stdin: ByteArray
-        get() = AnsibleVaultedStringUtil.removePrefix(encrypted).toByteArray()
+        get() = AnsibleVaultedStringUtil.removeStringPrefix(encrypted).toByteArray()
 
     override val parameters: List<String>
         get() = listOf("--output=-")

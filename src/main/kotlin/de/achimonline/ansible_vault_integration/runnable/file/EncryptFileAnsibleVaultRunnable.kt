@@ -11,16 +11,16 @@ import de.achimonline.ansible_vault_integration.runnable.VaultRunnableType
 class EncryptFileAnsibleVaultRunnable(
     private val containingFile: PsiFile,
     private val vaultIdentity: VaultIdentity?,
-    private val addPrefix: Boolean = true
+    private val addStringPrefix: Boolean = true
 ) : AnsibleVaultRunnable {
     @Throws(Exception::class)
     override fun run() {
         val encrypted = AnsibleVaultEncryptAction(
-            containingFile.project,
-            containingFile,
-            containingFile.virtualFile.contentsToByteArray(),
-            vaultIdentity,
-            addPrefix
+            project = containingFile.project,
+            contextFile = containingFile,
+            stdin = containingFile.virtualFile.contentsToByteArray(),
+            vaultIdentity = vaultIdentity,
+            addStringPrefix = addStringPrefix
         ).execute()
 
         WriteCommandAction.runWriteCommandAction(containingFile.project) {

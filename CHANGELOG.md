@@ -1,3 +1,21 @@
+## [4.1.0]
+
+### Changed
+
+- improved input validation in settings dialog
+- improved temp-file handling  
+(safer file permissions; unique name; delete-on-exit)
+- other minor code improvements
+- Gradle-wrapper update
+
+### Fixed
+
+- vaulting of unsynchronized files  
+(cached editor content now gets saved before running encryption)
+- properly filtering out `WARNING`/`DEPRECATION` (`stderr`) lines from `ansible-vault` response
+- don't trim content when (un)vaulting files  
+(retain new lines at the end)
+
 ## [4.0.0]
 
 ### Removed

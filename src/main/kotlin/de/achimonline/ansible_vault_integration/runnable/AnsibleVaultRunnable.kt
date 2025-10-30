@@ -1,6 +1,6 @@
 package de.achimonline.ansible_vault_integration.runnable
 
-import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle
+import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle.message
 
 enum class VaultRunnableType {
     ENCRYPT,
@@ -8,8 +8,8 @@ enum class VaultRunnableType {
 
     override fun toString(): String {
         return when (this) {
-            ENCRYPT -> AnsibleVaultIntegrationBundle.message("action.vault")
-            DECRYPT -> AnsibleVaultIntegrationBundle.message("action.unvault")
+            ENCRYPT -> message("action.vault")
+            DECRYPT -> message("action.unvault")
         }
     }
 

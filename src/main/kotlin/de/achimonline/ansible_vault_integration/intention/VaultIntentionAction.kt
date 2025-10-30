@@ -4,19 +4,19 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.util.IncorrectOperationException
-import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle
+import de.achimonline.ansible_vault_integration.bundle.AnsibleVaultIntegrationBundle.message
 import de.achimonline.ansible_vault_integration.config.AnsibleConfigurationService
 import de.achimonline.ansible_vault_integration.runnable.string.EncryptStringAnsibleVaultRunnable
 import org.jetbrains.yaml.YAMLTokenTypes
 import org.jetbrains.yaml.psi.YAMLKeyValue
 
-class VaultIntentionAction : BaseIntentionAction(AnsibleVaultIntegrationBundle.message("intention.vault.text")) {
+class VaultIntentionAction : BaseIntentionAction(message("intention.vault.text")) {
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (!super.isAvailable(project, editor, element)) {
             return false
         }
 
-        // Allow any kind of text in single or double quotes or without quotes
+        // allow any kind of text in single or double quotes or without quotes
         val elementType = element.node.elementType
 
         return (elementType == YAMLTokenTypes.TEXT
@@ -31,7 +31,7 @@ class VaultIntentionAction : BaseIntentionAction(AnsibleVaultIntegrationBundle.m
 
         return when (elementType) {
             YAMLTokenTypes.TEXT -> text // plain text -> no modification required
-            else -> text.substring(1, text.length - 1)         // remove quotes
+            else -> text.substring(1, text.length - 1) // remove quotes
         }
     }
 

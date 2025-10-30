@@ -20,14 +20,18 @@ class EncryptStringAnsibleVaultRunnable(
 ) : AnsibleVaultRunnable {
     @Throws(Exception::class)
     override fun run() {
-        val encrypted = AnsibleVaultEncryptAction(project, containingFile, content.toByteArray(), vaultIdentity)
-            .execute()
+        val encrypted = AnsibleVaultEncryptAction(
+            project = project,
+            contextFile = containingFile,
+            stdin = content.toByteArray(),
+            vaultIdentity = vaultIdentity
+        ).execute()
 
         WriteCommandAction.runWriteCommandAction(project) {
             val generatedReplacement =
                 YAMLElementGenerator(project).createYamlKeyValue(element.parent.text, encrypted).value
 
-            // Just in case
+            // just in case
             if (element.context == null || generatedReplacement == null) {
                 return@runWriteCommandAction
             }

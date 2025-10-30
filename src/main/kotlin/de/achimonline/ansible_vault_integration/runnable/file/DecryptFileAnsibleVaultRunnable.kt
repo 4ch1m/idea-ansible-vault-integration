@@ -14,9 +14,10 @@ class DecryptFileAnsibleVaultRunnable(
     @Throws(Exception::class)
     override fun run() {
         val decrypted = AnsibleVaultDecryptAction(
-            containingFile.project,
-            containingFile,
-            AnsibleVaultedStringUtil.addPrefix(String(containingFile.virtualFile.contentsToByteArray()))
+            project = containingFile.project,
+            contextFile = containingFile,
+            trimResult = false,
+            encrypted = AnsibleVaultedStringUtil.addStringPrefix(String(containingFile.virtualFile.contentsToByteArray())),
         ).execute()
 
         WriteCommandAction.runWriteCommandAction(containingFile.project) {

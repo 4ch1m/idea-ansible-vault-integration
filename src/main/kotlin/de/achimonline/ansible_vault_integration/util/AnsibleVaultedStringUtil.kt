@@ -5,23 +5,23 @@ import com.intellij.util.containers.stream
 import java.util.stream.Collectors
 
 object AnsibleVaultedStringUtil {
-    private const val PREFIX = "!vault |"
-    const val VAULT_FILE_PREFIX = $$"$ANSIBLE_VAULT"
+    private const val STRING_PREFIX = "!vault |"
+    private const val FILE_PREFIX = $$"$ANSIBLE_VAULT"
 
     fun isVaultedString(input: String?): Boolean = input != null
-            && input.trim { it <= ' ' }.startsWith(PREFIX)
+            && input.trim { it <= ' ' }.startsWith(STRING_PREFIX)
 
-    fun removePrefix(vaultedString: String): String = vaultedString.splitLines()
+    fun removeStringPrefix(vaultedString: String): String = vaultedString.splitLines()
         .stream()
         .skip(1)
         .map { obj: String -> obj.trim { it <= ' ' } }
         .collect(Collectors.joining("\n"))
 
-    fun addPrefix(vaultedString: String): String {
+    fun addStringPrefix(vaultedString: String): String {
         val rawLines = vaultedString.splitLines()
         val suffixedLines = arrayOfNulls<String>(rawLines.size + 1)
 
-        suffixedLines[0] = PREFIX
+        suffixedLines[0] = STRING_PREFIX
         System.arraycopy(rawLines, 0, suffixedLines, 1, rawLines.size)
 
         return java.lang.String.join("\n", *suffixedLines)
@@ -34,7 +34,7 @@ object AnsibleVaultedStringUtil {
             it.read(buffer)
         }
 
-        return String(buffer) == VAULT_FILE_PREFIX
+        return String(buffer) == FILE_PREFIX
     }
 }
 
