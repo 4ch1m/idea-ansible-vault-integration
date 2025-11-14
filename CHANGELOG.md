@@ -1,3 +1,14 @@
+## [4.2.0]
+
+### Changed
+
+- dependency updates
+
+### Fixed
+
+- vault (multiple) files using vault-ids  
+  (the process is no longer is blocked due to the popup-list not being shown properly)
+
 ## [4.1.0]
 
 ### Changed

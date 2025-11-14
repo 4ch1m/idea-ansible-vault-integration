@@ -9,7 +9,7 @@ version = property("pluginVersion")
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "2.2.21"
-    id("org.jetbrains.intellij.platform") version "2.10.2"
+    id("org.jetbrains.intellij.platform") version "2.10.4"
     id("org.jetbrains.changelog") version "2.4.0"
     id("com.github.ben-manes.versions") version "0.53.0"
 }
@@ -29,15 +29,11 @@ dependencies {
             providers.gradleProperty("platformVersion")
         )
 
+        bundledPlugins(property("platformBundledPlugins").split(","))
+
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
-
-        bundledPlugins(
-            listOf(
-                "org.jetbrains.plugins.yaml",
-            )
-        )
     }
 
     implementation("org.ini4j", "ini4j", "0.5.4")
