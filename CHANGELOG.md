@@ -1,3 +1,10 @@
+## [4.2.1]
+
+### Changed
+
+- dependency updates
+- Gradle-wrapper update
+
 ## [4.2.0]
 
 ### Changed
@@ -7,7 +14,7 @@
 ### Fixed
 
 - vault (multiple) files using vault-ids  
-  (the process is no longer is blocked due to the popup-list not being shown properly)
+(the process is no longer blocked due to the popup-list not being shown properly)
 
 ## [4.1.0]
 
